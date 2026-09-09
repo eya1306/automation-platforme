@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ app_name }} — {{ org_name }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Yellowtail&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-in">
+    <div class="wordmark">
+      {% if logo_file %}
+      <img class="org-logo"
+           src="{{ url_for('static', filename=logo_file) }}"
+           alt="{{ org_name }}">
+      {% else %}
+      {% include "_org_mark.html" %}
+      {% endif %}
+      <span class="wordmark-split" aria-hidden="true"></span>
+      <span class="wordmark-text">
+        <b>{{ app_name }}</b>
+        <small>{{ app_tagline }}</small>
+      </span>
+    </div>
+    <div class="masthead-meta">
+      <span id="worker-note">Runs execute on the server. You can leave a run and come back to it.</span>
+    </div>
+  </div>
+</header>
+
+<main class="shell">
+
+  <aside class="rail">
+    <h2 class="rail-title">Tools</h2>
+    <nav id="tool-list" class="tool-list" role="tablist" aria-label="Available tools"></nav>
+
+    <h2 class="rail-title rail-title-spaced">
+      Recent runs
+      <button type="button" id="refresh-history" class="linkish" title="Refresh">refresh</button>
+    </h2>
+    <ol id="history" class="history"></ol>
+  </aside>
+
+  <section class="stage">
+
+    <article id="tool-panel" class="panel tool-panel">
+      <header class="tool-head">
+        <p class="eyebrow" id="tool-produces"></p>
+        <h1 id="tool-name">Pick a tool</h1>
+        <p id="tool-description" class="tool-description"></p>
+      </header>
+
+      <form id="run-form" class="run-form" novalidate>
+        <div id="field-files" class="field-files"></div>
+        <div id="field-options" class="field-options"></div>
+
+        <div class="form-foot">
+          <p id="form-error" class="form-error" role="alert" hidden></p>
+          <button type="submit" id="run-button" class="run-button">
+            <span class="run-button-label">Run comparison</span>
+          </button>
+        </div>
+      </form>
+    </article>
+
+    <article id="run-panel" class="panel run-panel" hidden>
+      <div class="run-rule"><span id="run-rule-fill"></span></div>
+
+      <header class="run-head">
+        <div>
+          <p class="eyebrow"><span id="run-status-word">Queued</span> · <span id="run-id" class="mono"></span></p>
+          <h2 id="run-label">—</h2>
+        </div>
+        <div class="run-head-side">
+          <span id="run-clock" class="mono run-clock">0.0s</span>
+          <button type="button" id="run-close" class="linkish">close</button>
+        </div>
+      </header>
+
+      <div class="tape" id="tape" aria-live="polite" aria-label="Run log"></div>
+
+      <div id="run-outcome" class="outcome" hidden>
+        <div id="stat-row" class="stat-row"></div>
+        <div id="artifact-row" class="artifact-row"></div>
+        <div id="note-row" class="note-row"></div>
+        <div id="result-table" class="result-table"></div>
+      </div>
+    </article>
+
+  </section>
+</main>
+
+<script id="tools-data" type="application/json">{{ tools|tojson }}</script>
+<script>window.MAX_UPLOAD_MB = {{ max_upload_mb }};</script>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

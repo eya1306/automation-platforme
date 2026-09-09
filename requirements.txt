@@ -1,0 +1,11 @@
+# Web layer
+Flask>=3.0
+
+# Engines
+openpyxl>=3.1          # every tool that reads or writes a workbook
+python-docx>=1.1       # Impact SDDD, Requirement coverage check
+
+# Optional, and worth having
+rapidfuzz>=3.0         # faster, better section matching (falls back to difflib)
+xlrd>=2.0              # reads legacy .xls when LibreOffice is not installed
+waitress>=3.0          # production server: waitress-serve --call platform_app.app:create_app

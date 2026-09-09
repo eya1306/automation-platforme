@@ -1,0 +1,15 @@
+# Run folders: uploads and generated reports, one per run. Recreated on demand
+# and swept on a retention timer, so nothing here belongs in the repo.
+workspace/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store

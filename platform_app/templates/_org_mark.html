@@ -1,0 +1,33 @@
+{#
+  Drawn stand-in for the Capgemini Engineering lockup, used when no logo file
+  has been dropped into static/. Inlined rather than referenced as an <img> so
+  the webfonts loaded by the page apply to the two words.
+
+  The viewBox is fitted to the measured ink of the two words at the sizes set
+  in styles.css, so there is no dead space to shrink the mark inside the 30px
+  masthead slot. If you change either font or size, re-measure.
+
+  This is an approximation. Replace it by saving the official artwork as
+  static/logo.svg — the masthead prefers that file whenever it is present.
+#}
+<svg class="org-mark" viewBox="0 10 1115 172" role="img" aria-label="{{ org_name }}">
+  <text class="org-mark-script" x="0" y="140">Capgemini</text>
+
+  <g transform="translate(500 20)">
+    <path class="org-mark-spade" d="
+      M 41 0
+      C 41 30, 82 56, 82 88
+      C 82 110, 66 125, 46 125
+      C 32 125, 20 119, 13 109
+      C 5 98, 0 88, 0 78
+      C 0 52, 41 31, 41 0 Z"/>
+    <path class="org-mark-drop" d="
+      M 33 58
+      C 49 70, 54 92, 45 110
+      C 37 124, 20 129, 8 121
+      C 24 119, 35 108, 38 93
+      C 41 79, 39 67, 33 58 Z"/>
+  </g>
+
+  <text class="org-mark-sans" x="600" y="140">engineering</text>
+</svg>
