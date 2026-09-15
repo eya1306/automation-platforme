@@ -1,4 +1,4 @@
-"""Adapter for the call-tree comparison engine.
+"""Adapter for the Impact Call Tree engine.
 
 Wraps `SimpleCallTreeComparator` from the merged `smart_x` package. That class
 already returns its own counts, so this mostly translates its summary dict into

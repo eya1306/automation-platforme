@@ -12,9 +12,9 @@ In the order they appear in the sidebar:
 | **Impact SUTC LLT** | two workbooks, optional blank template | two copies of the workbook with differing cells filled red and green |
 | **Impact SDDD LLR** | two Word documents | one report with the before and after of each changed section |
 | **Impact DD / Data Dictionary + DD Appendix** | two workbooks with the same table layout | one report workbook: rows removed, added and modified, per sheet |
-| **Impact Call Tree** † | .c/.h files (or a .zip) | the Call Tree workbook, one row per call with its condition |
+| **Impact Call Tree** † | two call-tree sheets | a before/after report, removals red, additions green, renames matched |
+| **Call tree extractor** † | .c/.h files (or a .zip) | the Call Tree workbook, one row per call with its condition |
 | **Parameters range extractor** † | .c/.h files (or a .zip), one function name | an analysis workbook, the Data Dictionary template filled in, or both |
-| **Call tree comparison** † | two call-tree sheets | a before/after report, removals red, additions green, renames matched |
 | **Requirement coverage check** † | one Word document | REQ and COV identifiers on two sheets, green where the style is right |
 
 † merged in from [capgemini_smart_x](https://github.com/rounaaa/capgemini_smart_x).

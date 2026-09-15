@@ -104,8 +104,8 @@ def run(values: Dict[str, Any], output_dir: Path, say: Progress) -> RunResult:
     }
 
     notes = [
-        f"The sheet is named '{sheet_name}'. To compare two of these, run the "
-        "call-tree comparison with one workbook as before and one as after."
+        f"The sheet is named '{sheet_name}'. To compare two of these, run "
+        "Impact Call Tree with one workbook as before and one as after."
     ]
 
     return RunResult(

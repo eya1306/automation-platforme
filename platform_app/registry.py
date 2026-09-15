@@ -223,9 +223,43 @@ TOOLS: List[ToolSpec] = [
         ],
     ),
     ToolSpec(
+        id="call-tree-compare",
+        name="Impact Call Tree",
+        tagline="Two call trees, matched row by row with renames spotted",
+        description=(
+            "Compares two call-tree sheets and writes a report holding both sides in "
+            "full: a before sheet with the rows that went away in red, and an after "
+            "sheet with the rows that arrived in green. Rows that are merely similar "
+            "rather than identical are treated as modified rather than as one deletion "
+            "plus one addition, so a renamed function does not read as churn."
+        ),
+        produces="One .xlsx report with a before and an after sheet",
+        runner_path="platform_app.tools.call_tree_compare:run",
+        inputs=[
+            Field("before_file", "Before workbook", FILE, required=True,
+                  accept=".xlsx,.xlsm",
+                  help="If both sheets live in this one workbook, leave the after "
+                       "workbook empty."),
+            Field("after_file", "After workbook", FILE, required=False,
+                  accept=".xlsx,.xlsm",
+                  help="Optional. Only needed when the two call trees are in "
+                       "separate files."),
+            Field("before_sheet", "Before sheet", TEXT, default="Call Tree",
+                  placeholder="Call Tree"),
+            Field("after_sheet", "After sheet", TEXT, default="Call Tree (Apres modif)",
+                  placeholder="Call Tree (Apres modif)"),
+            Field("similarity", "Rename threshold", NUMBER, default=85,
+                  help="How alike two rows must be, as a percentage, before one counts "
+                       "as a modified version of the other rather than a separate "
+                       "deletion and addition."),
+            Field("output_name", "Report file name", TEXT, default="Call_Tree_Comparison",
+                  placeholder="Call_Tree_Comparison"),
+        ],
+    ),
+    ToolSpec(
         id="call-tree-extract",
         action="Extract call tree",
-        name="Impact Call Tree",
+        name="Call tree extractor",
         tagline="Who calls what, walked out of the C sources",
         description=(
             "Walks a tree of C sources and records every call it finds as one row: the "
@@ -287,40 +321,6 @@ TOOLS: List[ToolSpec] = [
                        "the tool."),
             Field("output_name", "Report file name", TEXT, default="",
                   placeholder="Analysis_<function>"),
-        ],
-    ),
-    ToolSpec(
-        id="call-tree-compare",
-        name="Call tree comparison",
-        tagline="Two call trees, matched row by row with renames spotted",
-        description=(
-            "Compares two call-tree sheets and writes a report holding both sides in "
-            "full: a before sheet with the rows that went away in red, and an after "
-            "sheet with the rows that arrived in green. Rows that are merely similar "
-            "rather than identical are treated as modified rather than as one deletion "
-            "plus one addition, so a renamed function does not read as churn."
-        ),
-        produces="One .xlsx report with a before and an after sheet",
-        runner_path="platform_app.tools.call_tree_compare:run",
-        inputs=[
-            Field("before_file", "Before workbook", FILE, required=True,
-                  accept=".xlsx,.xlsm",
-                  help="If both sheets live in this one workbook, leave the after "
-                       "workbook empty."),
-            Field("after_file", "After workbook", FILE, required=False,
-                  accept=".xlsx,.xlsm",
-                  help="Optional. Only needed when the two call trees are in "
-                       "separate files."),
-            Field("before_sheet", "Before sheet", TEXT, default="Call Tree",
-                  placeholder="Call Tree"),
-            Field("after_sheet", "After sheet", TEXT, default="Call Tree (Apres modif)",
-                  placeholder="Call Tree (Apres modif)"),
-            Field("similarity", "Rename threshold", NUMBER, default=85,
-                  help="How alike two rows must be, as a percentage, before one counts "
-                       "as a modified version of the other rather than a separate "
-                       "deletion and addition."),
-            Field("output_name", "Report file name", TEXT, default="Call_Tree_Comparison",
-                  placeholder="Call_Tree_Comparison"),
         ],
     ),
     ToolSpec(
