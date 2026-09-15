@@ -6,7 +6,12 @@
 <title>{{ app_name }} — {{ org_name }}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Yellowtail&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+{%- if not logo_file %}
+{# Only the drawn stand-in needs these two, so they are not fetched when the
+   real logo file is in place. #}
+<link href="https://fonts.googleapis.com/css2?family=Yellowtail&family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+{%- endif %}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>

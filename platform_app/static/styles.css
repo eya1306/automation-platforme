@@ -117,7 +117,7 @@ button { font: inherit; color: inherit; }
 /* The organisation logo is supplied as a file, so it is sized by height and
    left to keep its own aspect ratio — no cropping, no forced width. */
 .org-logo {
-  height: 30px; width: auto; max-width: 240px;
+  height: 30px; width: auto; max-width: 280px;
   flex: 0 0 auto; display: block; object-fit: contain;
 }
 

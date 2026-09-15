@@ -96,15 +96,19 @@ All optional, all environment variables:
 ### Branding
 
 The masthead carries the organisation logo on the left, a hairline, then the
-platform name. To show the logo, drop the official image file into
-`platform_app/static/` named `logo.svg` (or `logo.png` / `.webp` / `.jpg`) —
-it is picked up on the next page load, sized to 30 px tall, and left to keep
-its own aspect ratio.
+platform name. The logo is `platform_app/static/logo.png` — the Capgemini
+Engineering lockup, trimmed to its ink so that the 30 px height it is drawn at
+is 30 px of actual logo rather than mostly transparent margin. To swap it,
+replace that file, or drop in `logo.svg` / `logo.webp` / `logo.jpg`; the first
+name that matches wins and nothing else needs changing.
 
 With no such file present the masthead falls back to `templates/_org_mark.html`,
 a drawn approximation of the lockup: the two words set in webfonts plus two SVG
-paths for the symbol. It is close, not exact — supplying the official artwork is
-always better, and doing so needs no code change.
+paths for the symbol. It is close, not exact. The two webfonts it needs are
+requested only when that fallback is actually rendered.
+
+The logo is a Capgemini trademark, included here for use on a Capgemini tool.
+The file came from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:CapgeminiEngineering_82mm.png).
 
 Colours live as custom properties at the top of `platform_app/static/styles.css`
 in two groups. The brand group (`--brand` Capgemini Blue `#0070AD`,
