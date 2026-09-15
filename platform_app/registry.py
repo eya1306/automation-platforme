@@ -166,6 +166,41 @@ TOOLS: List[ToolSpec] = [
         ],
     ),
     ToolSpec(
+        id="word-sections",
+        name="Impact SDDD LLR",
+        tagline="Before and after of every changed section, formatting intact",
+        description=(
+            "Compares two Word documents and builds one report holding only the sections "
+            "that changed, each shown as a Before block and an After block with the changed "
+            "words highlighted. Sections are deep-copied out of their source documents with "
+            "their styles, numbering and images, so a copied section looks exactly as it did."
+        ),
+        produces="One .docx comparison report",
+        runner_path="platform_app.tools.word_sections:run",
+        inputs=[
+            Field("original_file", "Original document", FILE, required=True, accept=WORD_ACCEPT),
+            Field("modified_file", "Modified document", FILE, required=True, accept=WORD_ACCEPT),
+            Field("scope", "What to compare", SELECT, default="auto",
+                  options=[
+                      {"value": "auto", "label": "Requirements chapter only"},
+                      {"value": "full", "label": "The whole document"},
+                      {"value": "section", "label": "Specific sections"},
+                  ],
+                  help="Requirements mode runs from the first Heading 1 containing "
+                       "\"Requirements\" through to the next Heading 1."),
+            Field("target_sections", "Sections to review", LINES,
+                  visible_when={"scope": ["section"]},
+                  placeholder="3.2 Interfaces\n4.1 Performance",
+                  help="One section heading per line. They appear in the report in the "
+                       "order you type them."),
+            Field("report_title", "Report title", TEXT,
+                  placeholder="Impact SDDD CSC CR 1234",
+                  help="Optional. Printed as the first heading of the report."),
+            Field("output_name", "Report file name", TEXT, default="Comparison_Report",
+                  placeholder="Comparison_Report"),
+        ],
+    ),
+    ToolSpec(
         id="excel-table-diff",
         name="Impact DD / Data Dictionary + DD Appendix",
         tagline="Added, removed and modified rows, matched on a key column",
@@ -252,41 +287,6 @@ TOOLS: List[ToolSpec] = [
                        "the tool."),
             Field("output_name", "Report file name", TEXT, default="",
                   placeholder="Analysis_<function>"),
-        ],
-    ),
-    ToolSpec(
-        id="word-sections",
-        name="Impact SDDD",
-        tagline="Before and after of every changed section, formatting intact",
-        description=(
-            "Compares two Word documents and builds one report holding only the sections "
-            "that changed, each shown as a Before block and an After block with the changed "
-            "words highlighted. Sections are deep-copied out of their source documents with "
-            "their styles, numbering and images, so a copied section looks exactly as it did."
-        ),
-        produces="One .docx comparison report",
-        runner_path="platform_app.tools.word_sections:run",
-        inputs=[
-            Field("original_file", "Original document", FILE, required=True, accept=WORD_ACCEPT),
-            Field("modified_file", "Modified document", FILE, required=True, accept=WORD_ACCEPT),
-            Field("scope", "What to compare", SELECT, default="auto",
-                  options=[
-                      {"value": "auto", "label": "Requirements chapter only"},
-                      {"value": "full", "label": "The whole document"},
-                      {"value": "section", "label": "Specific sections"},
-                  ],
-                  help="Requirements mode runs from the first Heading 1 containing "
-                       "\"Requirements\" through to the next Heading 1."),
-            Field("target_sections", "Sections to review", LINES,
-                  visible_when={"scope": ["section"]},
-                  placeholder="3.2 Interfaces\n4.1 Performance",
-                  help="One section heading per line. They appear in the report in the "
-                       "order you type them."),
-            Field("report_title", "Report title", TEXT,
-                  placeholder="Impact SDDD CSC CR 1234",
-                  help="Optional. Printed as the first heading of the report."),
-            Field("output_name", "Report file name", TEXT, default="Comparison_Report",
-                  placeholder="Comparison_Report"),
         ],
     ),
     ToolSpec(

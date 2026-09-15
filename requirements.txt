@@ -3,7 +3,7 @@ Flask>=3.0
 
 # Engines
 openpyxl>=3.1          # every tool that reads or writes a workbook
-python-docx>=1.1       # Impact SDDD, Requirement coverage check
+python-docx>=1.1       # Impact SDDD LLR, Requirement coverage check
 
 # Optional, and worth having
 rapidfuzz>=3.0         # faster, better section matching (falls back to difflib)

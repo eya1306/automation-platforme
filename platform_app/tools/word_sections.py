@@ -1,4 +1,4 @@
-"""Adapter for the Impact SDDD engine.
+"""Adapter for the Impact SDDD LLR engine.
 
 Wraps ``ComparisonController`` from ``scripts/word_diff_engine.py``. The engine
 already reports progress as ``(message, fraction)``, which is exactly what the
