@@ -188,44 +188,39 @@ TOOLS: List[ToolSpec] = [
         ],
     ),
     ToolSpec(
-        id="word-sections",
-        name="Impact SDDD",
-        tagline="Before and after of every changed section, formatting intact",
+        id="call-tree-extract",
+        action="Extract call tree",
+        name="Impact Call Tree",
+        tagline="Who calls what, walked out of the C sources",
         description=(
-            "Compares two Word documents and builds one report holding only the sections "
-            "that changed, each shown as a Before block and an After block with the changed "
-            "words highlighted. Sections are deep-copied out of their source documents with "
-            "their styles, numbering and images, so a copied section looks exactly as it did."
+            "Walks a tree of C sources and records every call it finds as one row: the "
+            "calling CSC, CSU and function, the called CSC, CSU and function, and the "
+            "condition the call sits under. The rows are written into the Call Tree "
+            "sheet of the standard workbook, ready to be compared against another "
+            "extraction once the code has moved on."
         ),
-        produces="One .docx comparison report",
-        runner_path="platform_app.tools.word_sections:run",
+        produces="One .xlsx workbook with a filled Call Tree sheet",
+        runner_path="platform_app.tools.call_tree_extract:run",
         inputs=[
-            Field("original_file", "Original document", FILE, required=True, accept=WORD_ACCEPT),
-            Field("modified_file", "Modified document", FILE, required=True, accept=WORD_ACCEPT),
-            Field("scope", "What to compare", SELECT, default="auto",
-                  options=[
-                      {"value": "auto", "label": "Requirements chapter only"},
-                      {"value": "full", "label": "The whole document"},
-                      {"value": "section", "label": "Specific sections"},
-                  ],
-                  help="Requirements mode runs from the first Heading 1 containing "
-                       "\"Requirements\" through to the next Heading 1."),
-            Field("target_sections", "Sections to review", LINES,
-                  visible_when={"scope": ["section"]},
-                  placeholder="3.2 Interfaces\n4.1 Performance",
-                  help="One section heading per line. They appear in the report in the "
-                       "order you type them."),
-            Field("report_title", "Report title", TEXT,
-                  placeholder="Impact SDDD CSC CR 1234",
-                  help="Optional. Printed as the first heading of the report."),
-            Field("output_name", "Report file name", TEXT, default="Comparison_Report",
-                  placeholder="Comparison_Report"),
+            Field("source_files", "C source files", FILES, required=True,
+                  accept=C_SOURCE_ACCEPT,
+                  help="Loose .c and .h files, or a .zip of the whole source tree."),
+            Field("template_file", "Call Tree workbook", FILE, required=False,
+                  accept=".xlsx,.xlsm",
+                  help="Optional. Leave empty to start from the empty Call Tree "
+                       "structure that shipped with the tool."),
+            Field("sheet_name", "Sheet to fill", TEXT, default="Call Tree",
+                  placeholder="Call Tree",
+                  help="Use \"Call Tree (Apres modif)\" for the after side, so both "
+                       "extractions can live in one workbook."),
+            Field("output_name", "Report file name", TEXT, default="Call_Tree",
+                  placeholder="Call_Tree"),
         ],
     ),
     ToolSpec(
         id="c-function-analysis",
         action="Extract function",
-        name="C function extractor",
+        name="Parameters range extractor",
         tagline="One function pulled apart into a Data Dictionary",
         description=(
             "Reads a body of C source, finds one named function in it and writes out "
@@ -260,33 +255,38 @@ TOOLS: List[ToolSpec] = [
         ],
     ),
     ToolSpec(
-        id="call-tree-extract",
-        action="Extract call tree",
-        name="Call tree extractor",
-        tagline="Who calls what, walked out of the C sources",
+        id="word-sections",
+        name="Impact SDDD",
+        tagline="Before and after of every changed section, formatting intact",
         description=(
-            "Walks a tree of C sources and records every call it finds as one row: the "
-            "calling CSC, CSU and function, the called CSC, CSU and function, and the "
-            "condition the call sits under. The rows are written into the Call Tree "
-            "sheet of the standard workbook, ready to be compared against another "
-            "extraction once the code has moved on."
+            "Compares two Word documents and builds one report holding only the sections "
+            "that changed, each shown as a Before block and an After block with the changed "
+            "words highlighted. Sections are deep-copied out of their source documents with "
+            "their styles, numbering and images, so a copied section looks exactly as it did."
         ),
-        produces="One .xlsx workbook with a filled Call Tree sheet",
-        runner_path="platform_app.tools.call_tree_extract:run",
+        produces="One .docx comparison report",
+        runner_path="platform_app.tools.word_sections:run",
         inputs=[
-            Field("source_files", "C source files", FILES, required=True,
-                  accept=C_SOURCE_ACCEPT,
-                  help="Loose .c and .h files, or a .zip of the whole source tree."),
-            Field("template_file", "Call Tree workbook", FILE, required=False,
-                  accept=".xlsx,.xlsm",
-                  help="Optional. Leave empty to start from the empty Call Tree "
-                       "structure that shipped with the tool."),
-            Field("sheet_name", "Sheet to fill", TEXT, default="Call Tree",
-                  placeholder="Call Tree",
-                  help="Use \"Call Tree (Apres modif)\" for the after side, so both "
-                       "extractions can live in one workbook."),
-            Field("output_name", "Report file name", TEXT, default="Call_Tree",
-                  placeholder="Call_Tree"),
+            Field("original_file", "Original document", FILE, required=True, accept=WORD_ACCEPT),
+            Field("modified_file", "Modified document", FILE, required=True, accept=WORD_ACCEPT),
+            Field("scope", "What to compare", SELECT, default="auto",
+                  options=[
+                      {"value": "auto", "label": "Requirements chapter only"},
+                      {"value": "full", "label": "The whole document"},
+                      {"value": "section", "label": "Specific sections"},
+                  ],
+                  help="Requirements mode runs from the first Heading 1 containing "
+                       "\"Requirements\" through to the next Heading 1."),
+            Field("target_sections", "Sections to review", LINES,
+                  visible_when={"scope": ["section"]},
+                  placeholder="3.2 Interfaces\n4.1 Performance",
+                  help="One section heading per line. They appear in the report in the "
+                       "order you type them."),
+            Field("report_title", "Report title", TEXT,
+                  placeholder="Impact SDDD CSC CR 1234",
+                  help="Optional. Printed as the first heading of the report."),
+            Field("output_name", "Report file name", TEXT, default="Comparison_Report",
+                  placeholder="Comparison_Report"),
         ],
     ),
     ToolSpec(
